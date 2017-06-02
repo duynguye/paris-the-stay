@@ -55,8 +55,25 @@ html, body {
     background-size: 60%;
 
     .close-button {
-        position: relative;
+        position: absolute;
+        right: 0;
+        padding: 5px;
 
+        a {
+            color: black;
+            text-decoration: none;
+            font-size: 20px;
+            -webkit-font-smoothing: antialiased;
+            transition: color 0.2s ease-in-out;
+
+            &:hover {
+                color: darkred;
+            }
+
+            &:active {
+                color: darkgrey;
+            }
+        }
     }
 
     .blade-image-container {
@@ -80,7 +97,35 @@ html, body {
         }
 
         p {
+            font-family: 'Times New Roman', serif;
             color: black;
         }
     }
+}
+
+.blade-enter {
+    transform: translateX(-100%);
+}
+
+.blade-enter.blade-enter-active {
+    transform: translateX(0);
+    transition: transform 800ms ease-in-out;
+}
+
+.blade-leave {
+    transform: translateX(0);
+}
+
+.blade-leave.blade-leave-active {
+    transform: translateX(-100%);
+    transition: transform 800ms ease-in-out;
+}
+
+.blade-appear {
+    transform: translateX(-100%);
+}
+
+.blade-appear.blade-appear-active {
+    transform: translateX(0);
+    transition: transform 800ms ease-in-out;
 }

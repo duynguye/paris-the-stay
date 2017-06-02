@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 const PARIS = {
     "lat": 48.8563954,
@@ -6,18 +7,60 @@ const PARIS = {
 };
 
 const ARC_DE_TRIOMPHE = {
-    "lat": 48.874343,
-    "lng": 2.2948426
+    lat: 48.874343,
+    lng: 2.2948426,
+    title: "Arc de Triomphe",
+    image: "images/img-for-blade-0.png",
+    details: [
+        "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por " +
+        "scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen " +
+        "in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite " +
+        "de un nov lingua franca On refusa continuar payar custosi traductores",
+
+        "At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. " +
+        "Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e " +
+        "regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari " +
+        "quam li existent Europan lingues. It va esser tam simplic quam Occidental in " +
+        "fact, it va esser Occidental."
+    ]
 };
 
 const EIFFEL_TOWER = {
     "lat": 48.8605668,
-    "lng": 2.3001641
+    "lng": 2.3001641,
+    title: "Eiffel Tower",
+    image: "images/img-for-blade-1.png",
+    details: [
+        "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por " +
+        "scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen " +
+        "in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite " +
+        "de un nov lingua franca On refusa continuar payar custosi traductores",
+
+        "At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. " +
+        "Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e " +
+        "regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari " +
+        "quam li existent Europan lingues. It va esser tam simplic quam Occidental in " +
+        "fact, it va esser Occidental."
+    ]
 };
 
 const PONT_NOTRE_DAME = {
     "lat": 48.8526896,
-    "lng": 2.3496285
+    "lng": 2.3496285,
+    title: "Pont Notre-Dame",
+    image: "images/img-for-blade-2.png",
+    details: [
+        "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por " +
+        "scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen " +
+        "in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite " +
+        "de un nov lingua franca On refusa continuar payar custosi traductores",
+
+        "At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. " +
+        "Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e " +
+        "regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari " +
+        "quam li existent Europan lingues. It va esser tam simplic quam Occidental in " +
+        "fact, it va esser Occidental."
+    ]
 };
 
 class Blade extends React.Component {
@@ -25,28 +68,43 @@ class Blade extends React.Component {
         super(props);
 
         this.state = {
-            visible: false
+            visible: true
         };
+
+        this.handleClose = ::this.handleClose;
+    }
+
+    handleClose (e) {
+        e.preventDefault();
+
+        this.setState({
+            visible: false
+        });
+
+        TweenMax.fromTo(this.refs.blade, 0.3, {x: 0, opacity: 1}, {x: -500, opacity: 0});
     }
 
     componentDidMount () {
-
+        TweenMax.fromTo(this.refs.blade, 0.3, {x: -500, opacity: 0}, {x: 0, opacity: 1});
     }
 
     render () {
-        return  (
-            <div className="blade">
-                <div className="close-button" onClick={ this.handleClose }> </div>
+        return (
+            <div className="blade" ref="blade">
+                <div className="close-button" onClick={ this.handleClose }><a href="" className="fa fa-times"> </a>
+                </div>
                 <div className="blade-image-container">
-                    <img src={ this.props.image }/>
+                    <img src={ this.props.object.image }/>
                 </div>
 
                 <div className="blade-content">
-                    <h1>{ this.props.title }</h1>
-                    <p>{ this.props.detail }</p>
+                    <h1>{ this.props.object.title }</h1>
+                    { this.props.object.details.map((paragraph) =>
+                        <p key={paragraph.length}>{paragraph}</p>
+                    )}
                 </div>
             </div>
-        )
+        );
     }
 }
 
@@ -167,7 +225,9 @@ class MapObject extends React.Component {
     render () {
         return (
             <div className="map">
-                <Blade image="images/img-for-blade-0.png" title="Arc de Triomphe" detail="Details"/>
+                <Blade object={ARC_DE_TRIOMPHE}/>
+                <Blade object={EIFFEL_TOWER}/>
+                <Blade object={PONT_NOTRE_DAME}/>
                 <div className="map-frame" ref="map">
 
                 </div>
