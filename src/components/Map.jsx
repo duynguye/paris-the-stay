@@ -20,6 +20,36 @@ const PONT_NOTRE_DAME = {
     "lng": 2.3496285
 };
 
+class Blade extends React.Component {
+    constructor (props) {
+        super(props);
+
+        this.state = {
+            visible: false
+        };
+    }
+
+    componentDidMount () {
+
+    }
+
+    render () {
+        return  (
+            <div className="blade">
+                <div className="close-button" onClick={ this.handleClose }> </div>
+                <div className="blade-image-container">
+                    <img src={ this.props.image }/>
+                </div>
+
+                <div className="blade-content">
+                    <h1>{ this.props.title }</h1>
+                    <p>{ this.props.detail }</p>
+                </div>
+            </div>
+        )
+    }
+}
+
 class MapLogo extends React.Component {
     render () {
         return (
@@ -31,6 +61,10 @@ class MapLogo extends React.Component {
 }
 
 class MapObject extends React.Component {
+    constructor () {
+        super();
+    }
+
     componentDidMount () {
         this.map = new google.maps.Map(this.refs.map, {
             center: PARIS,
@@ -41,6 +75,10 @@ class MapObject extends React.Component {
 
         this.map.setOptions({
             styles: [
+                {
+                    elementType: 'all',
+                    stylers: [{ saturation: 0 }]
+                },
                 {
                     featureType: 'poi.business',
                     stylers: [{visibility: 'off'}]
@@ -81,15 +119,21 @@ class MapObject extends React.Component {
             ]
         });
 
+        let iconConfig = {
+            url: 'images/pin.png',
+            scaledSize: new google.maps.Size(40, 40),
+            anchor: new google.maps.Point(20, 20)
+        };
+
         this.marker = [
             new google.maps.Marker({
                 map: this.map,
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: ARC_DE_TRIOMPHE,
-                icon: {
-                    url: 'images/pin.png'
-                }
+                icon: iconConfig,
+                optimized: false,
+                labelClass: "test"
             }),
 
             new google.maps.Marker({
@@ -97,7 +141,7 @@ class MapObject extends React.Component {
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: EIFFEL_TOWER,
-                icon: 'images/pin.png'
+                icon: iconConfig
             }),
 
             new google.maps.Marker({
@@ -105,15 +149,28 @@ class MapObject extends React.Component {
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: PONT_NOTRE_DAME,
-                icon: 'images/pin.png'
+                icon: iconConfig
             })
         ];
+
+        for (let i = 0; i < this.marker.length; i++) {
+            google.maps.event.addListener(this.marker[i], 'mouseover', () => {
+                this.marker[i].setIcon({ url: 'images/pin-hover.png', scaledSize: new google.maps.Size(40, 40), anchor: new google.maps.Point(20, 20)})
+            });
+
+            google.maps.event.addListener(this.marker[i], 'mouseout', () => {
+                this.marker[i].setIcon(iconConfig)
+            });
+        }
     }
 
     render () {
         return (
-            <div className="map-frame" ref="map">
+            <div className="map">
+                <Blade image="images/img-for-blade-0.png" title="Arc de Triomphe" detail="Details"/>
+                <div className="map-frame" ref="map">
 
+                </div>
             </div>
         );
     }
