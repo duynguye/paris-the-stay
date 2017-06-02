@@ -1,0 +1,39 @@
+$background-color: black;
+$primary-color: white;
+
+// TEMPORARY CSS STYLING
+html, body {
+    background-color: $background-color;
+    h1, p { color: $primary-color; }
+    img {
+        max-width: 45vw;
+    }
+
+    margin: 0;
+    height: 100%;
+}
+
+.map-logo {
+    position: fixed;
+    z-index: 1;
+}
+
+.map-frame {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    z-index: 0;
+
+    &::after {
+        background: url("../../public/images/map-overlay.png") no-repeat;
+        background-size: 100% 100%;
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+
+        pointer-events: none;
+    }
+}

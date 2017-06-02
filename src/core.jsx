@@ -11,7 +11,6 @@ import Map from './components/Map';
 const Core = (props) => (
     <BrowserRouter>
         <div>
-            <h1>Core Component</h1>
             <Map/>
         </div>
     </BrowserRouter>
