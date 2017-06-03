@@ -83,8 +83,7 @@ const PONT_NOTRE_DAME = {
         "Eiusmod tri-tip adipisicing spare ribs, pastrami biltong ut flank landjaeger sausage nisi." +
         " Ham hock do duis pork dolore anim occaecat, short loin chuck pancetta." +
         " Occaecat enim meatloaf t-bone est porchetta kevin sed incididunt pork aliquip fugiat sunt tail. " +
-        "Swine ribeye exercitation anim pig chuck pork chop. Consequat spare ribs kielbasa, aliqua " +
-        "hamburger pig do short ribs nostrud exercitation laborum laboris esse et ribeye. Aliqua biltong jerky nostrud elit shank commodo."
+        "Swine ribeye exercitation anim pig chuck pork chop."
     ]
 };
 
