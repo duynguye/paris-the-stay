@@ -191,7 +191,8 @@ class MapObject extends React.Component {
             mapTypeControl: false,
             scaleControl: false,
             streetViewControl: false,
-            rotateControl: false
+            rotateControl: false,
+            clickableIcons: false
         });
 
         this.map.setOptions({
@@ -293,9 +294,7 @@ class MapObject extends React.Component {
                 store.dispatch({type: 'RECENTER_MAP', recenter: false});
                 this.map.panTo(PARIS);
             }
-        })
-
-        this.map.setClickableIcons(false);
+        });
     }
 
     render () {
