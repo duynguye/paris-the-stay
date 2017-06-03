@@ -1,5 +1,21 @@
 import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
+const redux = require('redux');
+
+let bladeReducer = (state = { marker: 'none' }, action) => {
+    switch (action.type) {
+        case 'MARKER_SELECTED':
+            return {
+                marker: action.marker
+            };
+
+        default:
+            return state;
+    }
+};
+
+let store = redux.createStore(bladeReducer);
+
 
 const PARIS = {
     "lat": 48.8563954,
@@ -63,15 +79,39 @@ const PONT_NOTRE_DAME = {
     ]
 };
 
+const markerIndex = ['arc', 'tower', 'pont'];
+
+
 class Blade extends React.Component {
     constructor (props) {
         super(props);
 
         this.state = {
-            visible: true
+            visible: false,
+            markerName: this.props.marker
         };
 
         this.handleClose = ::this.handleClose;
+
+        store.subscribe(() => {
+            if (store.getState().marker === this.state.markerName) {
+                this.setState({
+                    visible: true
+                });
+
+                TweenMax.fromTo(this.refs.blade, 0.3, {x: -500, opacity: 0}, {x: 0, opacity: 1});
+            }
+
+            if (store.getState().marker !== this.state.markerName) {
+                if (this.state.visible) {
+                    this.setState({
+                        visible: false
+                    });
+
+                    TweenMax.fromTo(this.refs.blade, 0.3, {x: 0, opacity: 1}, {x: -500, opacity: 0});
+                }
+            }
+        });
     }
 
     handleClose (e) {
@@ -85,7 +125,7 @@ class Blade extends React.Component {
     }
 
     componentDidMount () {
-        TweenMax.fromTo(this.refs.blade, 0.3, {x: -500, opacity: 0}, {x: 0, opacity: 1});
+
     }
 
     render () {
@@ -219,15 +259,19 @@ class MapObject extends React.Component {
             google.maps.event.addListener(this.marker[i], 'mouseout', () => {
                 this.marker[i].setIcon(iconConfig)
             });
+
+            google.maps.event.addListener(this.marker[i], 'click', () => {
+                store.dispatch({type: 'MARKER_SELECTED', marker: markerIndex[i]})
+            })
         }
     }
 
     render () {
         return (
             <div className="map">
-                <Blade object={ARC_DE_TRIOMPHE}/>
-                <Blade object={EIFFEL_TOWER}/>
-                <Blade object={PONT_NOTRE_DAME}/>
+                <Blade object={ARC_DE_TRIOMPHE} marker="arc"/>
+                <Blade object={EIFFEL_TOWER} marker="tower"/>
+                <Blade object={PONT_NOTRE_DAME} marker="pont"/>
                 <div className="map-frame" ref="map">
 
                 </div>
