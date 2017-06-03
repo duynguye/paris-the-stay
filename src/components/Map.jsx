@@ -125,7 +125,7 @@ class Blade extends React.Component {
     }
 
     componentDidMount () {
-
+        TweenMax.fromTo(this.refs.blade, 0.3, {x: 0, opacity: 0}, {x: -500, opacity: 0});
     }
 
     render () {
