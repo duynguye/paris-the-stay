@@ -74,8 +74,7 @@ const PONT_NOTRE_DAME = {
     details: [
         "Bacon ipsum dolor amet aliqua jerky ball tip dolore cupidatat. Tongue qui magna laboris. " +
         "Dolore ground round capicola short loin in duis esse enim consectetur ham ut. Do in minim kielbasa. " +
-        "Picanha pariatur drumstick ham hock pig cillum tail eu. Officia consectetur beef mollit ut jerky id, kevin in sausage anim. " +
-        "Fugiat ipsum corned beef, laborum cupim leberkas tempor ad ground round elit biltong alcatra flank.",
+        "Picanha pariatur drumstick ham hock pig cillum tail eu.",
 
         "Doner consectetur proident, ground round drumstick irure exercitation flank nulla laboris veniam magna eiusmod " +
         "do ham. Pancetta shankle fatback occaecat duis boudin ut venison corned beef consequat",
