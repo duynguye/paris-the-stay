@@ -73,16 +73,19 @@ const PONT_NOTRE_DAME = {
     title: "Pont Notre-Dame",
     image: "images/img-for-blade-2.png",
     details: [
-        "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por " +
-        "scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen " +
-        "in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite " +
-        "de un nov lingua franca On refusa continuar payar custosi traductores",
+        "Bacon ipsum dolor amet aliqua jerky ball tip dolore cupidatat. Tongue qui magna laboris. " +
+        "Dolore ground round capicola short loin in duis esse enim consectetur ham ut. Do in minim kielbasa. " +
+        "Picanha pariatur drumstick ham hock pig cillum tail eu. Officia consectetur beef mollit ut jerky id, kevin in sausage anim. " +
+        "Fugiat ipsum corned beef, laborum cupim leberkas tempor ad ground round elit biltong alcatra flank.",
 
-        "At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. " +
-        "Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e " +
-        "regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari " +
-        "quam li existent Europan lingues. It va esser tam simplic quam Occidental in " +
-        "fact, it va esser Occidental."
+        "Doner consectetur proident, ground round drumstick irure exercitation flank nulla laboris veniam magna eiusmod " +
+        "do ham. Pancetta shankle fatback occaecat duis boudin ut venison corned beef consequat",
+
+        "Eiusmod tri-tip adipisicing spare ribs, pastrami biltong ut flank landjaeger sausage nisi." +
+        " Ham hock do duis pork dolore anim occaecat, short loin chuck pancetta." +
+        " Occaecat enim meatloaf t-bone est porchetta kevin sed incididunt pork aliquip fugiat sunt tail. " +
+        "Swine ribeye exercitation anim pig chuck pork chop. Consequat spare ribs kielbasa, aliqua " +
+        "hamburger pig do short ribs nostrud exercitation laborum laboris esse et ribeye. Aliqua biltong jerky nostrud elit shank commodo."
     ]
 };
 
