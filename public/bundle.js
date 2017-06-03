@@ -11820,6 +11820,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
@@ -11837,14 +11839,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var redux = __webpack_require__(253);
 
 var bladeReducer = function bladeReducer() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { marker: 'none' };
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { marker: 'none', recenter: false };
     var action = arguments[1];
 
     switch (action.type) {
         case 'MARKER_SELECTED':
-            return {
+            return _extends({}, state, {
                 marker: action.marker
-            };
+            });
+
+        case 'RECENTER_MAP':
+            return _extends({}, state, {
+                recenter: action.recenter
+            });
 
         default:
             return state;
@@ -11934,7 +11941,9 @@ var Blade = function (_React$Component) {
         }
     }, {
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            TweenMax.fromTo(this.refs.blade, 0.3, { x: 0, opacity: 0 }, { x: -500, opacity: 0 });
+        }
     }, {
         key: 'render',
         value: function render() {
@@ -11945,8 +11954,8 @@ var Blade = function (_React$Component) {
                     'div',
                     { className: 'close-button', onClick: this.handleClose },
                     _react2.default.createElement(
-                        'a',
-                        { href: '', className: 'fa fa-times' },
+                        'span',
+                        { className: 'fa fa-times' },
                         ' '
                     )
                 ),
@@ -11984,16 +11993,26 @@ var MapLogo = function (_React$Component2) {
     function MapLogo() {
         _classCallCheck(this, MapLogo);
 
-        return _possibleConstructorReturn(this, (MapLogo.__proto__ || Object.getPrototypeOf(MapLogo)).apply(this, arguments));
+        var _this2 = _possibleConstructorReturn(this, (MapLogo.__proto__ || Object.getPrototypeOf(MapLogo)).call(this));
+
+        _this2.handleClick = _this2.handleClick.bind(_this2);
+        return _this2;
     }
 
     _createClass(MapLogo, [{
+        key: 'handleClick',
+        value: function handleClick(e) {
+            e.preventDefault();
+
+            store.dispatch({ type: 'RECENTER_MAP', recenter: true });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 { className: 'map-logo' },
-                _react2.default.createElement('img', { src: 'images/logo-the-stay.png', alt: 'The Stay Logo' })
+                _react2.default.createElement('img', { src: 'images/logo-the-stay.png', alt: 'The Stay Logo', onClick: this.handleClick })
             );
         }
     }]);
@@ -12102,6 +12121,13 @@ var MapObject = function (_React$Component3) {
             for (var i = 0; i < this.marker.length; i++) {
                 _loop(i);
             }
+
+            store.subscribe(function () {
+                if (store.getState().recenter === true) {
+                    store.dispatch({ type: 'RECENTER_MAP', recenter: false });
+                    _this4.map.panTo(PARIS);
+                }
+            });
         }
     }, {
         key: 'render',
@@ -12181,7 +12207,7 @@ exports = module.exports = __webpack_require__(108)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\n  background-color: black;\n  margin: 0;\n  height: 100%; }\n  html h1, html p, body h1, body p {\n    color: white; }\n  html img, body img {\n    max-width: 45vw; }\n\n.map-logo {\n  position: fixed;\n  z-index: 1; }\n\n.map-frame {\n  position: absolute;\n  width: 100%;\n  min-height: 100%;\n  z-index: 0; }\n  .map-frame::after {\n    background: url(" + __webpack_require__(261) + ") no-repeat;\n    background-size: 100% 100%;\n    content: \" \";\n    position: absolute;\n    top: 0;\n    left: 0;\n    height: 100%;\n    width: 100%;\n    pointer-events: none; }\n  .map-frame .marker-icon {\n    background-color: black; }\n\n.blade {\n  max-width: 35vw;\n  min-width: 35vw;\n  height: 85vh;\n  z-index: 2;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  opacity: 0;\n  background: rgba(218, 218, 218, 0.9) url(" + __webpack_require__(262) + ") no-repeat bottom right;\n  background-size: 60%; }\n  .blade .close-button {\n    position: absolute;\n    right: 0;\n    padding: 5px; }\n    .blade .close-button a {\n      color: black;\n      text-decoration: none;\n      font-size: 20px;\n      -webkit-font-smoothing: antialiased;\n      transition: color 0.2s ease-in-out; }\n      .blade .close-button a:hover {\n        color: darkred; }\n      .blade .close-button a:active {\n        color: darkgrey; }\n  .blade .blade-image-container {\n    padding: 25px 25px 10px 25px; }\n    .blade .blade-image-container img {\n      max-width: 100%; }\n  .blade .blade-content {\n    padding: 0 25px 0 25px; }\n    .blade .blade-content h1 {\n      font-family: 'Open Sans Light', sans-serif;\n      font-weight: bold;\n      letter-spacing: 20px;\n      text-transform: uppercase;\n      -webkit-font-smoothing: antialiased;\n      color: black; }\n    .blade .blade-content p {\n      font-family: 'Times New Roman', serif;\n      color: black; }\n\n.blade-enter {\n  transform: translateX(-100%); }\n\n.blade-enter.blade-enter-active {\n  transform: translateX(0);\n  transition: transform 800ms ease-in-out; }\n\n.blade-leave {\n  transform: translateX(0); }\n\n.blade-leave.blade-leave-active {\n  transform: translateX(-100%);\n  transition: transform 800ms ease-in-out; }\n\n.blade-appear {\n  transform: translateX(-100%); }\n\n.blade-appear.blade-appear-active {\n  transform: translateX(0);\n  transition: transform 800ms ease-in-out; }\n", ""]);
+exports.push([module.i, "html, body {\n  background-color: black;\n  margin: 0;\n  height: 100%; }\n  html h1, html p, body h1, body p {\n    color: white; }\n  html img, body img {\n    max-width: 45vw; }\n\n.map-logo {\n  position: fixed;\n  z-index: 1;\n  cursor: pointer; }\n\n.map-frame {\n  position: absolute;\n  width: 100%;\n  min-height: 100%;\n  z-index: 0; }\n  .map-frame::after {\n    background: url(" + __webpack_require__(261) + ") no-repeat;\n    background-size: 100% 100%;\n    content: \" \";\n    position: absolute;\n    top: 0;\n    left: 0;\n    height: 100%;\n    width: 100%;\n    pointer-events: none; }\n  .map-frame .marker-icon {\n    background-color: black; }\n\n.blade {\n  max-width: 35vw;\n  min-width: 35vw;\n  height: 85vh;\n  z-index: 2;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  opacity: 0;\n  background: rgba(218, 218, 218, 0.9) url(" + __webpack_require__(262) + ") no-repeat bottom right;\n  background-size: 60%; }\n  .blade .close-button {\n    position: absolute;\n    right: 0;\n    padding: 5px; }\n    .blade .close-button span {\n      color: black;\n      text-decoration: none;\n      font-size: 20px;\n      -webkit-font-smoothing: antialiased;\n      transition: color 0.2s ease-in-out;\n      cursor: pointer; }\n      .blade .close-button span:hover {\n        color: darkred; }\n      .blade .close-button span:active {\n        color: darkgrey; }\n  .blade .blade-image-container {\n    padding: 25px 25px 10px 25px; }\n    .blade .blade-image-container img {\n      max-width: 100%; }\n  .blade .blade-content {\n    padding: 0 25px 0 25px; }\n    .blade .blade-content h1 {\n      font-family: 'Open Sans Light', sans-serif;\n      font-weight: bold;\n      letter-spacing: 20px;\n      text-transform: uppercase;\n      -webkit-font-smoothing: antialiased;\n      color: black; }\n    .blade .blade-content p {\n      font-family: 'Times New Roman', serif;\n      color: black; }\n\n.blade-enter {\n  transform: translateX(-100%); }\n\n.blade-enter.blade-enter-active {\n  transform: translateX(0);\n  transition: transform 800ms ease-in-out; }\n\n.blade-leave {\n  transform: translateX(0); }\n\n.blade-leave.blade-leave-active {\n  transform: translateX(-100%);\n  transition: transform 800ms ease-in-out; }\n\n.blade-appear {\n  transform: translateX(-100%); }\n\n.blade-appear.blade-appear-active {\n  transform: translateX(0);\n  transition: transform 800ms ease-in-out; }\n\n@media screen and (max-width: 480px) {\n  .map-logo img {\n    max-width: 100vw; }\n  .blade {\n    max-width: 100vw;\n    width: 100vw;\n    overflow-y: scroll; }\n  .blade-content h1 {\n    font-size: 15px;\n    letter-spacing: 0; } }\n\n@media screen and (min-width: 481px) and (max-width: 720px) {\n  .blade {\n    max-width: 80vw;\n    width: 80vw; } }\n\n@media screen and (min-width: 721px) and (max-width: 900px) {\n  .blade {\n    max-width: 70vw;\n    width: 70vw; } }\n", ""]);
 
 // exports
 

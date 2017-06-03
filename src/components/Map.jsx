@@ -2,11 +2,18 @@ import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 const redux = require('redux');
 
-let bladeReducer = (state = { marker: 'none' }, action) => {
+let bladeReducer = (state = { marker: 'none' , recenter: false }, action) => {
     switch (action.type) {
         case 'MARKER_SELECTED':
             return {
+                ...state,
                 marker: action.marker
+            };
+
+        case 'RECENTER_MAP':
+            return {
+                ...state,
+                recenter: action.recenter
             };
 
         default:
@@ -131,7 +138,7 @@ class Blade extends React.Component {
     render () {
         return (
             <div className="blade" ref="blade">
-                <div className="close-button" onClick={ this.handleClose }><a href="" className="fa fa-times"> </a>
+                <div className="close-button" onClick={ this.handleClose }><span className="fa fa-times"> </span>
                 </div>
                 <div className="blade-image-container">
                     <img src={ this.props.object.image }/>
@@ -149,10 +156,21 @@ class Blade extends React.Component {
 }
 
 class MapLogo extends React.Component {
+    constructor () {
+        super();
+        this.handleClick = ::this.handleClick;
+    }
+
+    handleClick (e) {
+        e.preventDefault();
+
+        store.dispatch({type: 'RECENTER_MAP', recenter: true});
+    }
+
     render () {
         return (
             <div className="map-logo">
-                <img src="images/logo-the-stay.png" alt="The Stay Logo"/>
+                <img src="images/logo-the-stay.png" alt="The Stay Logo" onClick={ this.handleClick }/>
             </div>
         );
     }
@@ -264,6 +282,13 @@ class MapObject extends React.Component {
                 store.dispatch({type: 'MARKER_SELECTED', marker: markerIndex[i]})
             })
         }
+
+        store.subscribe(() => {
+            if (store.getState().recenter === true) {
+                store.dispatch({type: 'RECENTER_MAP', recenter: false});
+                this.map.panTo(PARIS);
+            }
+        })
     }
 
     render () {
