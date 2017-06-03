@@ -186,7 +186,12 @@ class MapObject extends React.Component {
             center: PARIS,
             scrollWheel: true,
             mapTypeId: 'hybrid',
-            zoom: 14
+            zoom: 14,
+            zoomControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false
         });
 
         this.map.setOptions({
