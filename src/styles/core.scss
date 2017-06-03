@@ -168,3 +168,9 @@ html, body {
         width: 70vw;
     }
 }
+
+@media screen and (orientation: landscape) {
+    .blade {
+        overflow-y: scroll;
+    }
+}
