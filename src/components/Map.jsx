@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 const redux = require('redux');
 
@@ -99,6 +100,7 @@ class Blade extends React.Component {
         };
 
         this.handleClose = ::this.handleClose;
+        this.handleClickOutside = ::this.handleClickOutside;
 
         store.subscribe(() => {
             if (store.getState().marker === this.state.markerName) {
@@ -133,8 +135,24 @@ class Blade extends React.Component {
         TweenMax.fromTo(this.refs.blade, 0.3, {x: 0, opacity: 1}, {x: -500, opacity: 0});
     }
 
+    handleClickOutside () {
+        const domNode = ReactDOM.findDOMNode(this.refs.blade);
+
+        if (this.state.visible) {
+            if ((!domNode || !domNode.contains(event.target))) {
+                this.setState({
+                    visible: false
+                });
+
+                TweenMax.fromTo(this.refs.blade, 0.3, {x: 0, opacity: 1}, {x: -500, opacity: 0});
+            }
+        }
+    }
+
     componentDidMount () {
         TweenMax.fromTo(this.refs.blade, 0.3, {x: 0, opacity: 0}, {x: -500, opacity: 0});
+
+        document.addEventListener('click', this.handleClickOutside, true);
     }
 
     render () {
