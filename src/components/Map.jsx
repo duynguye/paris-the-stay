@@ -294,6 +294,8 @@ class MapObject extends React.Component {
                 this.map.panTo(PARIS);
             }
         })
+
+        this.map.setClickableIcons(false);
     }
 
     render () {
