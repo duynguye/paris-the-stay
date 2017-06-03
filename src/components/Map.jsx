@@ -12,7 +12,6 @@ let bladeReducer = (state = { marker: 'none' , recenter: false }, action) => {
 
         case 'RECENTER_MAP':
             return {
-                ...state,
                 recenter: action.recenter
             };
 
@@ -105,11 +104,13 @@ class Blade extends React.Component {
 
         store.subscribe(() => {
             if (store.getState().marker === this.state.markerName) {
-                this.setState({
-                    visible: true
-                });
+                if (this.state.visible !== true) {
+                    this.setState({
+                        visible: true
+                    });
 
-                TweenMax.fromTo(this.refs.blade, 0.3, {x: -500, opacity: 0}, {x: 0, opacity: 1});
+                    TweenMax.fromTo(this.refs.blade, 0.3, {x: -500, opacity: 0}, {x: 0, opacity: 1});
+                }
             }
 
             if (store.getState().marker !== this.state.markerName) {
